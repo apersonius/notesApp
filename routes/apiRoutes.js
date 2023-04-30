@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const fs = require('fs');
 
-var uid = require('uid');
+var uniqid = require('uniqid');
 
 module.exports = (app) => {
     app.get('/api/notes', (req, res) => {
@@ -18,7 +18,7 @@ module.exports = (app) => {
             title: req.body.title,
             text: req.body.text,
 
-            id: uid(),
+            id: uniqid(),
         };
 
         db.push(userNote);
