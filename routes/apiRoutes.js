@@ -5,6 +5,9 @@ var uniqid = require('uniqid');
 
 module.exports = (app) => {
     app.get('notes', (req, res) => {
+        let db = fs.readFileSync('db/db.json');
+        db = JSON.parse(db);
+
         res.sendFile(path.join(__dirname, '../db/db.json'));
     });
 
