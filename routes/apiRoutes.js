@@ -4,14 +4,13 @@ const fs = require('fs');
 var uniqid = require('uniqid');
 
 module.exports = (app) => {
-    app.get('/notes', (req, res) => {
-        res.sendFile(path.join(__dirname, '../db/db/json'));
-    })
-};
+    app.get('/api/notes', (req, res) => {
+        res.sendFile(path.join(__dirname, '../db/db.json'));
+    });
 
-    app.post('/notes', (req, res) => {
+    app.post('/api/notes', (req, res) => {
         let db = fs.readFileSync('db/db.json');
-        db = json.parse(db);
+        db = JSON.parse(db);
         res.json(db)
 
         let userNote = {
@@ -23,5 +22,14 @@ module.exports = (app) => {
 
         db.push(userNote);
         fs.writeFileSync('db/db.json', JSON.stringify(db));
-        res.JSON(db);
+        res.json(db);
     });
+
+    app.delete('/api/notes/:id', (req, res) => {
+        let db = JSON.parse(fs.readFileSync('db/db.json'))
+        let deleteNotes = db.filter(item => item.id !== req.params.id);
+
+        fs.writeFileSync('db/db.json', JSON.stringify(deleteNotes));
+        res.json(deleteNotes);
+    })
+};
