@@ -1,17 +1,14 @@
-const app = require('express').Router();
+const path = require('path');
 const fs = require('fs');
 
 var uniqid = require('uniqid');
 
 module.exports = (app) => {
-    app.get('notes', (req, res) => {
-        let db = fs.readFileSync('db/db.json');
-        db = JSON.parse(db);
-
+    app.get('/api/notes', (req, res) => {
         res.sendFile(path.join(__dirname, '../db/db.json'));
     });
 
-    app.post('notes', (req, res) => {
+    app.post('/api/notes', (req, res) => {
         let db = fs.readFileSync('db/db.json');
         db = JSON.parse(db);
         res.json(db)
@@ -28,7 +25,7 @@ module.exports = (app) => {
         res.json(db);
     });
 
-    app.delete('notes/:id', (req, res) => {
+    app.delete('/api/notes/:id', (req, res) => {
         let db = JSON.parse(fs.readFileSync('db/db.json'))
         let deleteNotes = db.filter(item => item.id !== req.params.id);
 
